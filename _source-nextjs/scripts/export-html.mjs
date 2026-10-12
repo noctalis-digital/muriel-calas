@@ -140,6 +140,15 @@ fs.writeFileSync(
   `# URL propres : /a-propos sert a-propos.html
 Options -MultiViews
 RewriteEngine On
+
+# Une seule adresse : https://www.muriel-calas.fr (HTTPS et www forcés)
+RewriteCond %{SERVER_PORT} 80 [OR]
+RewriteCond %{HTTP_HOST} ^muriel-calas\\.fr$ [NC]
+RewriteRule ^(.*)$ https://www.muriel-calas.fr/$1 [R=301,L]
+
+# Anciennes adresses du site précédent
+RewriteRule ^accueil/?$ / [R=301,L]
+RewriteRule ^(framework|project)/ - [G,L]
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteCond %{REQUEST_FILENAME}.html -f

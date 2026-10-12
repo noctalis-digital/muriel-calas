@@ -3,13 +3,14 @@ import { site } from "@/content/site";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata = pageMetadata({
-  title: "Mentions légales | Muriel Calas, préparatrice mentale",  description: "Mentions légales du site de Muriel Calas, préparatrice mentale à Narbonne (Aude).",
+  title: "Mentions légales | Muriel Calas, préparatrice mentale",
+  description: "Mentions légales du site de Muriel Calas, préparatrice mentale à Narbonne (Aude).",
   path: "/mentions-legales",
 });
 
 export default function MentionsLegalesPage() {
   return (
-    <LegalPage title="Mentions légales" path="/mentions-legales" updated="septembre 2026">
+    <LegalPage title="Mentions légales" path="/mentions-legales" updated="octobre 2026">
       <h2>Éditrice du site</h2>
       <p>
         Muriel Calas — Préparatrice mentale
@@ -25,12 +26,16 @@ export default function MentionsLegalesPage() {
 
       <h2>Hébergement</h2>
       <p>
-        <ToComplete>nom, adresse et téléphone de l’hébergeur retenu</ToComplete>
+        OVH SAS
+        <br />
+        2 rue Kellermann, 59100 Roubaix, France
+        <br />
+        Téléphone : 1007
       </p>
 
       <h2>Conception et réalisation</h2>
       <p>
-        <ToComplete>nom de l’agence ou du prestataire</ToComplete>
+        Noctalis — <a href="https://noctalis.digital">noctalis.digital</a>
       </p>
 
       <h2>Propriété intellectuelle</h2>

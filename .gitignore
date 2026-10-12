@@ -8,3 +8,6 @@ _ressources/
 
 # Photos d’articles déposées avant intégration
 ARTICLE/
+
+# Paquet prêt à envoyer sur l’hébergement
+_mise-en-ligne/
