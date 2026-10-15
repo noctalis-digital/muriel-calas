@@ -120,7 +120,7 @@ En général, deux à trois cycles d’observation permettent de voir apparaîtr
 
 ### Comment en parler à son entraîneur ?
 
-Simplement, comme une information utile pour la séance : « Je suis dans une période où je récupère moins bien, est-ce qu’on peut adapter ? » Plus le sujet est abordé naturellement dans un groupe, plus il devient facile pour toutes.
+Simplement, comme une information utile pour la séance : « Je suis dans une période où je récupère moins bien, est-ce qu’on peut adapter ? » Plus le sujet est abordé naturellement dans un groupe, plus il devient facile pour toutes.
 
 ### La préparation mentale remplace-t-elle un suivi médical ?
 

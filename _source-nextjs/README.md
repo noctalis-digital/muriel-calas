@@ -41,7 +41,7 @@ Après une modification de texte : `npm run typo` ajoute automatiquement les esp
 | Variable | Rôle |
 | --- | --- |
 | `NEXT_PUBLIC_CALENDLY_URL` | Lien Calendly de Muriel. Tant qu’il est vide, « Prendre rendez-vous » mène à `/contact#rendez-vous` (appel téléphonique + formulaire). Une fois renseigné, l’agenda s’affiche dans la page contact au clic (pas de script tiers ni de popup au chargement). |
-| `RESEND_API_KEY`, `CONTACT_TO_EMAIL`, `CONTACT_FROM_EMAIL` | Envoi du formulaire de contact par e-mail via [Resend](https://resend.com). Sans ces variables, le formulaire fonctionne en mode démo en local et renvoie une erreur propre en production. |
+| — | Formulaire de contact : envoi par l’API Noctalis (`siteId` `muriel-calas`, voir `src/lib/contact-email.ts` et `scripts/html/site.js`, à garder synchronisés). Le destinataire est configuré côté API, jamais dans le site. |
 
 ## Architecture
 

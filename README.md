@@ -32,14 +32,14 @@ créées par la synchronisation iCloud.
 
 ## Points ouverts
 
-- `CONTACT_ENDPOINT` dans `assets/js/site.js` : vide, donc le formulaire n'envoie rien pour l'instant.
+- Formulaire de contact : branché sur l’API Noctalis (`siteId` `muriel-calas`). En local (fichier ou localhost), rien n’est envoyé.
 - Prise de rendez-vous : sans lien Calendly, les boutons mènent à `contact.html#rendez-vous`.
 - Mentions légales et politique de confidentialité : champs marqués « À compléter ».
 - `site.email` dans `_source-nextjs/src/content/site.ts` : vide, les devis passent donc par le formulaire.
 
 ## Aperçu en ligne
 
-<https://camillenoctalis.github.io/muriel-calas/> — branche `gh-pages`, en `noindex` pour ne pas
+<https://noctalis-digital.github.io/muriel-calas/> — branche `gh-pages`, en `noindex` pour ne pas
 concurrencer le site officiel sur Google.
 
 Réalisé par [Noctalis](https://noctalis.digital).

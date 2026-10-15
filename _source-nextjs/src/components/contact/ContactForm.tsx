@@ -4,13 +4,15 @@ import { useRef, useState, type FormEvent } from "react";
 import Link from "next/link";
 import { ArrowRight, Check } from "@/components/ui/icons";
 import { cn } from "@/lib/cn";
+import { isEmail, readContact, sendContact } from "@/lib/contact-email";
 
 const profiles = ["Sportif·ve", "Parent d’un sportif", "Étudiant·e", "Entraîneur·e / coach", "Autre"];
 const subjects = [
   "Appel découverte",
   "Accompagnement sportif",
   "Stress des examens",
-  "Cycle menstruel",  "Intervention en club / équipe",
+  "Cycle menstruel",
+  "Intervention en club / équipe",
   "Demande de devis",
   "Autre demande",
 ];
@@ -29,7 +31,7 @@ export function ContactForm() {
     if (!String(data.get("lastName") || "").trim()) e.lastName = "Indiquez votre nom.";
     const email = String(data.get("email") || "").trim();
     if (!email) e.email = "Indiquez votre adresse e-mail.";
-    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) e.email = "Cette adresse e-mail ne semble pas valide.";
+    else if (!isEmail(email)) e.email = "Cette adresse e-mail ne semble pas valide.";
     if (String(data.get("message") || "").trim().length < 10) e.message = "Quelques mots sur votre situation (10 caractères minimum).";
     if (!data.get("consent")) e.consent = "Merci d’accepter le traitement de vos données pour que je puisse vous répondre.";
     return e;
@@ -46,15 +48,20 @@ export function ContactForm() {
       form.querySelector<HTMLElement>(`[name="${first}"]`)?.focus();
       return;
     }
+    if (status === "sending") return; // évite les doubles envois
+    if (data.get("website")) {
+      // Piège à robots rempli : succès simulé, rien n’est envoyé
+      setStatus("sent");
+      return;
+    }
     setStatus("sending");
+    setServerMessage("");
     try {
-      const res = await fetch("/api/contact", { method: "POST", body: data });
-      const json = await res.json().catch(() => ({}));
-      if (!res.ok) throw new Error(json.message || "Envoi impossible.");
+      await sendContact(readContact(data));
       setStatus("sent");
       form.reset();
-    } catch (err) {
-      setServerMessage(err instanceof Error ? err.message : "Envoi impossible.");
+    } catch {
+      setServerMessage("L’envoi n’a pas abouti.");
       setStatus("error");
     }
   };

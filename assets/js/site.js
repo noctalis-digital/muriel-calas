@@ -4,11 +4,12 @@
  */
 
 /* ---------------------------------------------------------------------------
- * Formulaire de contact : adresse de réception.
- * Coller ici l’URL d’un service de formulaire (ex. Formspree : https://formspree.io/f/xxxxxx).
- * Tant qu’elle est vide : mode démonstration en local, message d’appel téléphonique en ligne.
+ * Formulaire de contact : envoi par l’API Noctalis.
+ * Le destinataire est configuré côté API (identifiant de site ci-dessous) :
+ * il n’apparaît jamais dans le site, et aucun secret n’y figure.
  * ------------------------------------------------------------------------- */
-var CONTACT_ENDPOINT = "";
+var CONTACT_API = "https://api.noctalis.digital/v1/emails/send";
+var CONTACT_SITE_ID = "muriel-calas";
 
 (function () {
   "use strict";
@@ -446,6 +447,92 @@ var CONTACT_ENDPOINT = "";
   /* -------------------------------------------------------------------------
    * 9. Formulaire de contact
    * ----------------------------------------------------------------------- */
+
+  /* Adresse e-mail : validation stricte (elle sert aussi d’adresse de réponse) */
+  function isEmail(value) {
+    var v = String(value || "").trim();
+    if (v.length > 254 || /\.\./.test(v)) return false;
+    return /^[A-Za-z0-9.!#$%&'*+\/=?^_`{|}~-]{1,64}@[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?(?:\.[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?)*\.[A-Za-z]{2,}$/.test(v);
+  }
+
+  /* Échappement de toute valeur saisie avant insertion dans l’e-mail HTML */
+  function escapeHtml(value) {
+    return String(value == null ? "" : value)
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&#39;");
+  }
+
+  /* Texte multiligne : échappé, puis retours à la ligne conservés */
+  function multiline(value) {
+    return escapeHtml(String(value || "").replace(/\r\n?/g, "\n").trim()).replace(/\n/g, "<br>");
+  }
+
+  function readContact(f) {
+    var v = function (n) { return (f.elements[n] && f.elements[n].value || "").trim(); };
+    return {
+      firstName: v("firstName"),
+      lastName: v("lastName"),
+      email: v("email"),
+      phone: v("phone"),
+      profile: v("profile"),
+      subject: v("subject"),
+      message: (f.elements.message && f.elements.message.value) || "",
+    };
+  }
+
+  /* E-mail reçu par Muriel : tableaux, styles en ligne, aux couleurs du site */
+  function buildContactEmail(c) {
+    var ink = "#0d1b2a", muted = "#4a5b6d", clay = "#a8552f", paper = "#faf7f2", line = "#e6e0d6";
+    var serif = "Georgia, 'Times New Roman', serif";
+    var sans = "-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif";
+    var name = (c.firstName + " " + c.lastName).trim();
+    var row = function (label, html) {
+      return '<tr><td style="padding:14px 0;border-top:1px solid ' + line + ';font-family:' + sans + ';font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:' + muted + ';width:34%;vertical-align:top;">' + label + '</td>' +
+        '<td style="padding:14px 0;border-top:1px solid ' + line + ';font-family:' + sans + ';font-size:15px;line-height:1.5;color:' + ink + ';vertical-align:top;word-break:break-word;overflow-wrap:anywhere;">' + html + '</td></tr>';
+    };
+    var phoneDigits = c.phone.replace(/[^\d+]/g, "");
+    var rows =
+      row("Nom", escapeHtml(name)) +
+      row("E-mail", '<a href="mailto:' + escapeHtml(c.email) + '" style="color:' + ink + ';">' + escapeHtml(c.email) + "</a>") +
+      (c.phone ? row("Téléphone", phoneDigits ? '<a href="tel:' + escapeHtml(phoneDigits) + '" style="color:' + ink + ';">' + escapeHtml(c.phone) + "</a>" : escapeHtml(c.phone)) : "") +
+      (c.profile ? row("Profil", escapeHtml(c.profile)) : "") +
+      (c.subject ? row("Sujet", escapeHtml(c.subject)) : "");
+
+    return '<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Nouvelle demande de contact</title></head>' +
+      '<body style="margin:0;padding:0;background:' + paper + ';">' +
+      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="background:' + paper + ';"><tr><td align="center" style="padding:28px 12px;">' +
+      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0" style="max-width:600px;background:#ffffff;border:1px solid ' + line + ';border-radius:8px;">' +
+      '<tr><td style="padding:28px 32px 22px;border-bottom:3px solid ' + clay + ';">' +
+      '<div style="font-family:' + serif + ';font-size:22px;color:' + ink + ';">Muriel Calas</div>' +
+      '<div style="font-family:' + sans + ';font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:' + muted + ';margin-top:4px;">Préparatrice mentale</div></td></tr>' +
+      '<tr><td style="padding:28px 32px 8px;">' +
+      '<div style="font-family:' + sans + ';font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:' + clay + ';">Nouvelle demande de contact</div>' +
+      '<h1 style="margin:10px 0 18px;font-family:' + serif + ';font-weight:400;font-size:26px;line-height:1.2;word-break:break-word;color:' + ink + ';">' + escapeHtml(name) + "</h1>" +
+      '<table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">' + rows + "</table></td></tr>" +
+      '<tr><td style="padding:12px 32px 28px;">' +
+      '<div style="font-family:' + sans + ';font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:' + muted + ';margin-bottom:10px;">Message</div>' +
+      '<div style="font-family:' + sans + ';font-size:15px;line-height:1.65;color:' + ink + ';background:' + paper + ';border-left:3px solid ' + clay + ';padding:16px 18px;border-radius:4px;word-break:break-word;overflow-wrap:anywhere;">' + multiline(c.message) + "</div></td></tr>" +
+      '<tr><td style="padding:18px 32px 26px;border-top:1px solid ' + line + ';font-family:' + sans + ';font-size:13px;line-height:1.5;color:' + muted + ';">' +
+      "Pour répondre, utilisez simplement « Répondre » : votre réponse partira à " + escapeHtml(c.email) + ".<br>" +
+      "Message envoyé depuis le formulaire de contact de www.muriel-calas.fr. La personne a accepté le traitement de ses données pour cette demande.</td></tr>" +
+      "</table></td></tr></table></body></html>";
+  }
+
+  /* Contenu exact envoyé à l’API : identifiant de site, objet, HTML et adresse de réponse */
+  function contactPayload(c) {
+    var name = (c.firstName + " " + c.lastName).replace(/[\r\n]+/g, " ").trim();
+    var topic = c.subject ? c.subject.replace(/[\r\n]+/g, " ") + " · " : "";
+    var payload = {
+      siteId: CONTACT_SITE_ID,
+      subject: "Nouvelle demande de contact · " + topic + name,
+      html: buildContactEmail(c),
+    };
+    if (isEmail(c.email)) payload.replyTo = c.email.trim();
+    return payload;
+  }
   var form = $("[data-contact-form]");
   if (form) {
     var messages = {
@@ -484,7 +571,7 @@ var CONTACT_ENDPOINT = "";
       if (!v("firstName")) errors.firstName = messages.firstName;
       if (!v("lastName")) errors.lastName = messages.lastName;
       if (!v("email")) errors.email = messages.email;
-      else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v("email"))) errors.email = messages.emailInvalid;
+      else if (!isEmail(v("email"))) errors.email = messages.emailInvalid;
       if (v("message").length < 10) errors.message = messages.message;
       if (!form.elements.consent.checked) errors.consent = messages.consent;
       ["firstName", "lastName", "email", "message", "consent"].forEach(function (n) { setError(n, errors[n]); });
@@ -493,8 +580,10 @@ var CONTACT_ENDPOINT = "";
 
     var submit = $('button[type="submit"]', form);
     var submitLabel = submit ? $("span", submit) : null;
+    var submitText = submitLabel ? submitLabel.textContent : "";
     var status = $('[aria-live="polite"]', form);
     var local = location.protocol === "file:" || /^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+    var sending = false;
 
     var success = function () {
       var box = d.createElement("div");
@@ -504,36 +593,61 @@ var CONTACT_ENDPOINT = "";
         '<span class="grid h-12 w-12 place-items-center rounded-full bg-navy text-paper" aria-hidden="true">' +
         '<svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg></span>' +
         '<h3 class="display-sm mt-6 text-ink">Merci, votre message est bien parti.</h3>' +
-        '<p class="mt-4 max-w-md text-muted">Je vous réponds personnellement dans les meilleurs délais. Si c’est urgent, n’hésitez pas à m’appeler au 06 22 06 44 59.</p>';
+        '<p class="mt-4 max-w-md text-muted">Je vous réponds personnellement dans les meilleurs délais. Si c’est urgent, n’hésitez pas à m’appeler au 06 22 06 44 59.</p>';
       form.replaceWith(box);
       box.setAttribute("tabindex", "-1");
       box.focus();
     };
     var fail = function (text) {
-      if (status) status.innerHTML = '<span class="field-error"></span>';
-      if (status) status.firstChild.textContent = text + " Vous pouvez aussi appeler le 06 22 06 44 59.";
+      if (!status) return;
+      status.innerHTML = '<span class="field-error"></span>';
+      status.firstChild.textContent = text + " Vous pouvez aussi appeler le 06 22 06 44 59.";
+    };
+    var setSending = function (on) {
+      sending = on;
+      if (submit) {
+        submit.disabled = on;
+        submit.setAttribute("aria-busy", on ? "true" : "false");
+        submit.classList.toggle("opacity-70", on);
+      }
+      if (submitLabel) submitLabel.textContent = on ? "Envoi en cours…" : submitText;
     };
 
     form.addEventListener("submit", function (e) {
       e.preventDefault();
+      if (sending) return; // évite les doubles envois
+      if (status) status.textContent = "";
       var errors = validate();
       var first = Object.keys(errors)[0];
       if (first) { form.elements[first].focus(); return; }
+      // Piège à robots rempli : on fait comme si tout allait bien, sans rien envoyer
       if (form.elements.website && form.elements.website.value) { success(); return; }
 
-      if (!CONTACT_ENDPOINT) {
-        if (local) success();
-        else fail("Le formulaire est momentanément indisponible.");
+      var payload = contactPayload(readContact(form));
+      // Aperçu local (fichier ou localhost) : origine non autorisée par l’API, rien n’est envoyé
+      if (local) {
+        if (window.console) console.info("Aperçu local : message non envoyé.", payload);
+        success();
         return;
       }
-      if (submit) submit.disabled = true;
-      if (submitLabel) submitLabel.textContent = "Envoi en cours…";
-      fetch(CONTACT_ENDPOINT, { method: "POST", body: new FormData(form), headers: { Accept: "application/json" } })
-        .then(function (res) { if (!res.ok) throw new Error(); success(); })
+
+      setSending(true);
+      fetch(CONTACT_API, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+        .then(function (res) {
+          return res.json().catch(function () { return {}; }).then(function (result) {
+            if (!res.ok || (result && result.success === false)) {
+              throw new Error((result && result.error && result.error.message) || "Unable to send email");
+            }
+          });
+        })
+        .then(success)
         .catch(function () {
-          if (submit) submit.disabled = false;
-          if (submitLabel) submitLabel.textContent = "Envoyer mon message";
-          fail("L’envoi a échoué.");
+          setSending(false);
+          fail("L’envoi n’a pas abouti.");
         });
     });
   }
