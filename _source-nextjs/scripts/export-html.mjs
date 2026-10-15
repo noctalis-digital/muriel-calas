@@ -12,6 +12,7 @@
  */
 import fs from "node:fs";
 import path from "node:path";
+import crypto from "node:crypto";
 import sharp from "sharp";
 
 const ROOT = process.cwd();
@@ -72,6 +73,11 @@ css = css.replace(/url\((?:\.\.\/media\/|\/_next\/static\/media\/)([^)]+)\)/g, (
 });
 fs.writeFileSync(path.join(DEST, "assets", "css", "style.css"), css);
 
+/* --- Versions : empreinte du contenu, pour que les navigateurs rechargent après chaque mise à jour */
+const fingerprint = (file) => crypto.createHash("sha1").update(fs.readFileSync(file)).digest("hex").slice(0, 10);
+const cssVersion = fingerprint(path.join(DEST, "assets", "css", "style.css"));
+const jsVersion = fingerprint(path.join(DEST, "assets", "js", "site.js"));
+
 /* --- Pages HTML ----------------------------------------------------------- */
 const pageFile = (urlPath) => {
   const clean = urlPath.replace(/\/+$/, "");
@@ -112,7 +118,7 @@ for (const file of htmlFiles) {
   html = html.replace(/<link rel="stylesheet" href="[^"]+\.css"[^>]*\/?>/g, () => {
     if (cssInserted) return "";
     cssInserted = true;
-    return `<link rel="stylesheet" href="${prefix}assets/css/style.css"/>`;
+    return `<link rel="stylesheet" href="${prefix}assets/css/style.css?v=${cssVersion}"/>`;
   });
 
   // Préchargement des polices
@@ -126,7 +132,7 @@ for (const file of htmlFiles) {
   html = html.replace(/<!--\/?\$\??-->/g, "").replace(/<div hidden="">\s*<\/div>/g, "");
 
   // Script d’interactions
-  html = html.replace("</body>", `<script src="${prefix}assets/js/site.js" defer></script></body>`);
+  html = html.replace("</body>", `<script src="${prefix}assets/js/site.js?v=${jsVersion}" defer></script></body>`);
 
   const outFile = path.join(DEST, rel);
   fs.mkdirSync(path.dirname(outFile), { recursive: true });
