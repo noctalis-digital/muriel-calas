@@ -76,13 +76,13 @@ L’objectif est que vous deveniez actrice de votre performance : capable de re
 
 Chaque jour, ou après chaque entraînement, notez en quelques mots : votre niveau d’énergie (de 1 à 5), la qualité de votre sommeil, votre humeur, votre concentration, et le jour de votre cycle. Une application de suivi peut aider, mais un simple carnet suffit. Au bout de deux ou trois mois, des tendances apparaissent souvent.
 
-### Repérez vos « jours ressources » et vos « jours sensibles »
+### Repérez votre « fenêtre optimale » et votre « fenêtre de récupération »
 
 À partir de vos notes, identifiez les périodes où vous vous sentez plutôt en forme et celles où c’est plus difficile. Ce n’est pas une règle figée, mais un repère pour anticiper plutôt que subir.
 
 ### Adaptez votre préparation, pas votre engagement
 
-Les jours plus sensibles, vous pouvez par exemple allonger votre échauffement, prévoir un temps de retour au calme, utiliser une respiration lente avant la séance ou fixer un objectif de séance plus ciblé. Les jours ressources, vous pouvez au contraire profiter de votre énergie pour travailler ce qui vous demande le plus. L’idée n’est pas d’en faire moins, mais de le faire autrement.
+Pendant votre fenêtre de récupération, vous pouvez par exemple allonger votre échauffement, prévoir un temps de retour au calme, utiliser une respiration lente avant la séance ou fixer un objectif de séance plus ciblé. Pendant votre fenêtre optimale, vous pouvez au contraire profiter de votre énergie pour travailler ce qui vous demande le plus. L’idée n’est pas d’en faire moins, mais de le faire autrement.
 
 ### Osez en parler
 
