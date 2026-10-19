@@ -5,8 +5,8 @@ description: "Peur de se reblesser, motivation en rééducation, confiance au re
 excerpt: "La rééducation reconstruit le corps, mais qu’en est-il de la confiance ? Crainte de la récidive, motivation, entraînement mental pendant l’arrêt : les repères pour préparer un retour serein."
 date: "2026-10-19"
 categories: ["Sport", "Préparation mentale", "Confiance"]
-cover: "/images/etirement-calme.jpg"
-coverAlt: "Sportif en train de s’étirer seul dans le calme, illustration de la préparation mentale pendant la reprise après une blessure"
+cover: "/images/preparation-mentale-retour-blessure-sportive.jpg"
+coverAlt: "Sportif blessé au genou assis au bord d’un court de tennis, le regard tourné vers le terrain, illustration de la préparation mentale pendant la rééducation"
 status: "publie"
 cta:
   title: "Vous êtes blessé et voulez préparer un retour serein ?"
@@ -39,7 +39,7 @@ Le corps suit un protocole précis, avec des étapes et des objectifs. Le mental
 - Votre motivation est forte au début de la rééducation, puis s’use au fil des semaines.
 - Vous avez l’impression de perdre tout ce que vous aviez construit.
 - Vous ne savez pas comment rester impliqué dans votre sport sans pouvoir le pratiquer.
-- À l’approche de la reprise, une petite voix vous demande : « Et si ça recommençait ? »
+- À l’approche de la reprise, une petite voix vous demande : « Et si ça recommençait ? »
 - Sur le terrain, vous évitez inconsciemment certaines situations : un appui, un contact, une réception.
 - Vos gestes sont moins fluides et vos actions moins spontanées, comme si quelque chose vous retenait.
 - Vous hésitez dans les moments décisifs, alors que votre corps est prêt.

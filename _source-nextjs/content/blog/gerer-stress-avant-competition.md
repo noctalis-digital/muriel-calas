@@ -5,8 +5,8 @@ description: "Découvrez 5 techniques simples de préparation mentale pour mieux
 excerpt: "Le stress avant une compétition est normal. L’objectif n’est pas forcément de le supprimer, mais d’apprendre à le comprendre et à l’utiliser. Cinq pistes simples pour aborder plus sereinement les moments importants."
 date: "2026-09-21"
 categories: ["Sport", "Préparation mentale", "Gestion du stress"]
-cover: "/images/athlete-avant-course.jpg"
-coverAlt: "Pieds d’un sprinteur en pointes sur la piste, juste avant de se placer dans les starting-blocks"
+cover: "/images/gerer-stress-avant-competition-preparation-mentale.jpg"
+coverAlt: "Pieds d’un sprinteur en pointes sur la piste, juste avant les starting-blocks : le moment où monte le stress avant une compétition"
 status: "publie"
 cta:
   title: "Vous souhaitez travailler votre gestion du stress en compétition ?"
