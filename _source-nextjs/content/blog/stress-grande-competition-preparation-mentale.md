@@ -58,7 +58,7 @@ Dans les deux cas, vous perdez ce qui fait votre jeu habituel : la fluidité.
 
 **Ne pas savoir de quoi on a besoin.** Certains jours, il faut se calmer ; d’autres, il faut s’activer. Et ce besoin peut changer d’une compétition à l’autre. Sans repères, on applique la même recette, qui ne convient pas toujours.
 
-**Un discours intérieur qui dessert.** « Surtout ne rate pas », « Il ne faut pas perdre » : ces phrases, répétées en boucle, entretiennent la tension au lieu de la réguler.
+**Un discours intérieur qui dessert.** « Surtout ne rate pas », « Il ne faut pas perdre » : ces phrases, répétées en boucle, entretiennent la tension au lieu de la réguler.
 
 ## 4. Ce que la préparation mentale peut apporter
 
@@ -120,7 +120,7 @@ Oui. C’est même plutôt bon signe : l’enjeu compte pour vous. Le stress pr
 
 Observez-vous : si vous vous sentez lourd, figé, en retard, vous avez probablement besoin de tonicité. Si vous êtes agité, pressé, dispersé, vous avez besoin de calme. Ce besoin peut changer d’une compétition à l’autre : c’est pour cela qu’il est utile d’apprendre à le lire.
 
-### Qu’est-ce que « se mettre dans sa bulle » ?
+### Qu’est-ce que « se mettre dans sa bulle » ?
 
 C’est une préparation mentale qui ressemble à un échauffement : quelques minutes pour vous recentrer sur vous, vos sensations et vos intentions, en mettant de côté ce qui ne dépend pas de vous. Chaque sportif construit sa propre bulle, avec ses repères.
 
